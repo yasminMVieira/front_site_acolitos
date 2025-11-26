@@ -1,26 +1,25 @@
 import React from 'react';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
-import Sidebarr from './components/Sidebarr';
+import BottomNav from './components/BottomNav';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Birthday from './pages/Birthday';
-import './styles/Global.css';
-import 'primereact/resources/themes/md-light-deeppurple/theme.css';  // Tema específico do PrimeReact
-import 'primereact/resources/primereact.min.css';           // Estilos principais do PrimeReact
-import 'primeicons/primeicons.css';                         // Ícones do PrimeReact
-import 'primeflex/primeflex.css';                           // Utilitários de layout (opcional)
-
+import 'primereact/resources/themes/lara-dark-purple/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Sidebarr />
-      <div className = "main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/birthdays" element={<Birthday />} />
-        </Routes>
+      <div className="min-h-screen bg-background pb-20 md:pb-0 md:pt-24">
+        <BottomNav />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/birthdays" element={<Birthday />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );
