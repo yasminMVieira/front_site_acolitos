@@ -43,6 +43,43 @@
   .nav-item-active {
     @apply text-primary bg-primary/10;
   }
+
+  /* PrimeReact DataTable dark theme overrides */
+  .datatable-dark .p-datatable {
+    @apply bg-transparent;
+  }
+  
+  .datatable-dark .p-datatable-header {
+    @apply bg-transparent;
+  }
+  
+  .datatable-dark .p-datatable-thead > tr > th {
+    @apply bg-surface-light/50 text-white/70 border-white/10;
+  }
+  
+  .datatable-dark .p-datatable-tbody > tr {
+    @apply bg-transparent;
+  }
+  
+  .datatable-dark .p-datatable-tbody > tr > td {
+    @apply border-white/5;
+  }
+  
+  .datatable-dark .p-datatable-tbody > tr:hover {
+    @apply bg-white/5;
+  }
+  
+  .datatable-dark .p-paginator {
+    @apply bg-transparent border-white/10;
+  }
+  
+  .datatable-dark .p-paginator .p-paginator-pages .p-paginator-page {
+    @apply text-white/70;
+  }
+  
+  .datatable-dark .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    @apply bg-primary text-white;
+  }
 }
 
 @layer utilities {

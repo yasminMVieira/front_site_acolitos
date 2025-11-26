@@ -96,7 +96,7 @@ const BirthdayList: React.FC = () => {
           </div>
         ) : (
           /* Data Table */
-          <div className="[&_.p-datatable]:bg-transparent [&_.p-datatable-header]:bg-transparent [&_.p-datatable-thead>tr>th]:bg-surface-light/50 [&_.p-datatable-thead>tr>th]:text-white/70 [&_.p-datatable-thead>tr>th]:border-white/10 [&_.p-datatable-tbody>tr]:bg-transparent [&_.p-datatable-tbody>tr>td]:border-white/5 [&_.p-datatable-tbody>tr:hover]:bg-white/5 [&_.p-paginator]:bg-transparent [&_.p-paginator]:border-white/10 [&_.p-paginator_.p-paginator-pages_.p-paginator-page]:text-white/70 [&_.p-paginator_.p-paginator-pages_.p-paginator-page.p-highlight]:bg-primary [&_.p-paginator_.p-paginator-pages_.p-paginator-page.p-highlight]:text-white">
+          <div className="datatable-dark">
             <DataTable 
               value={birthdays} 
               paginator 
