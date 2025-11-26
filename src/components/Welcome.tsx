@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 const Welcome: React.FC = () => {
   const [text, setText] = useState('');
   const fullText = "Bem-vindo(a), Acólito(a)!";
+  const { theme } = useTheme();
 
   useEffect(() => {
     let index = 0;
@@ -38,9 +40,21 @@ const Welcome: React.FC = () => {
     <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-8">
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-r from-primary/30 to-accent/30 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-r from-accent/30 to-primary/30 rounded-full blur-3xl animate-float-delayed"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-48 md:h-48 bg-gradient-radial from-primary/20 to-transparent rounded-full blur-2xl"></div>
+        <div className={`absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 rounded-full blur-3xl animate-float
+          ${theme === 'dark' 
+            ? 'bg-gradient-to-r from-primary/30 to-accent/30' 
+            : 'bg-gradient-to-r from-primary/20 to-accent/20'
+          }`}></div>
+        <div className={`absolute bottom-1/4 right-1/4 w-48 h-48 md:w-72 md:h-72 rounded-full blur-3xl animate-float-delayed
+          ${theme === 'dark' 
+            ? 'bg-gradient-to-r from-accent/30 to-primary/30' 
+            : 'bg-gradient-to-r from-accent/20 to-primary/20'
+          }`}></div>
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-48 md:h-48 rounded-full blur-2xl
+          ${theme === 'dark' 
+            ? 'bg-gradient-radial from-primary/20 to-transparent' 
+            : 'bg-gradient-radial from-primary/10 to-transparent'
+          }`}></div>
       </div>
 
       {/* Main Content */}
@@ -56,11 +70,11 @@ const Welcome: React.FC = () => {
 
         {/* Typing Effect Title */}
         <div className="glass-card mb-8 text-center">
-          <h1 className="text-2xl md:text-4xl font-bold text-glow">
+          <h1 className={`text-2xl md:text-4xl font-bold ${theme === 'dark' ? 'text-glow' : ''}`}>
             <span className="bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent">
               {text}
             </span>
-            <span className="animate-pulse">|</span>
+            <span className={`animate-pulse ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>|</span>
           </h1>
         </div>
 
@@ -74,10 +88,10 @@ const Welcome: React.FC = () => {
               <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center">
                 <i className={`${feature.icon} text-2xl md:text-3xl text-white`}></i>
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
-                {feature.title}
+              <h3 className={`text-lg md:text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                {feature. title}
               </h3>
-              <p className="text-white/60 text-sm md:text-base">
+              <p className={`text-sm md:text-base ${theme === 'dark' ? 'text-white/60' : 'text-gray-600'}`}>
                 {feature.description}
               </p>
             </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { useTheme } from '../context/ThemeContext';
 
 // Definição da interface do usuário
 interface User {
@@ -12,6 +13,7 @@ interface User {
 const BirthdayList: React.FC = () => {
   const [birthdays, setBirthdays] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
   
   useEffect(() => {
     const fetchBirthdays = async () => {
@@ -36,18 +38,18 @@ const BirthdayList: React.FC = () => {
     return (
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-          <span className="text-white font-semibold text-sm">
+          <span className={theme === 'dark' ? 'text-white' : 'text-gray-900'}>
             {rowData.name.charAt(0).toUpperCase()}
           </span>
         </div>
-        <span className="text-white">{rowData.name}</span>
+        <span className={theme === 'dark' ? 'text-white' : 'text-gray-900'}>{rowData.name}</span>
       </div>
     );
   };
 
   const dateBodyTemplate = (rowData: User) => {
     return (
-      <div className="flex items-center gap-2 text-white/80">
+      <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
         <i className="pi pi-calendar text-primary-light text-sm"></i>
         <span>{formatarData(rowData.birthdate)}</span>
       </div>
@@ -63,7 +65,7 @@ const BirthdayList: React.FC = () => {
             <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent">
               Aniversariantes do Dia
             </h2>
-            <p className="text-white/60 mt-1">
+            <p className={`mt-1 ${theme === 'dark' ? 'text-white/60' : 'text-gray-600'}`}>
               {birthdays.length > 0 
                 ? `${birthdays.length} aniversariante${birthdays.length > 1 ? 's' : ''} hoje!`
                 : 'Nenhum aniversariante hoje'
@@ -79,24 +81,34 @@ const BirthdayList: React.FC = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-12">
             <i className="pi pi-spin pi-spinner text-4xl text-primary-light mb-4"></i>
-            <p className="text-white/60">Carregando aniversariantes...</p>
+            <p className={theme === 'dark' ? 'text-white/60' : 'text-gray-600'}>Carregando aniversariantes...</p>
           </div>
         ) : birthdays.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="w-20 h-20 rounded-full bg-surface-light/50 flex items-center justify-center mb-4">
-              <i className="pi pi-calendar-times text-4xl text-white/40"></i>
+            <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-surface-light/50' : 'bg-gray-200'}`}>
+              <i className={`pi pi-calendar-times text-4xl ${theme === 'dark' ? 'text-white/40' : 'text-gray-400'}`}></i>
             </div>
-            <h3 className="text-lg font-semibold text-white/80 mb-2">
+            <h3 className={`text-lg font-semibold mb-2 ${theme === 'dark' ? 'text-white/80' : 'text-gray-900'}`}>
               Nenhum aniversariante
             </h3>
-            <p className="text-white/50 text-center">
+            <p className={theme === 'dark' ? 'text-white/50 text-center' : 'text-gray-600 text-center'}>
               Não há aniversariantes registrados para hoje.
             </p>
           </div>
         ) : (
           /* Data Table */
-          <div className="[&_.p-datatable]:bg-transparent [&_.p-datatable-header]:bg-transparent [&_.p-datatable-thead>tr>th]:bg-surface-light/50 [&_.p-datatable-thead>tr>th]:text-white/70 [&_.p-datatable-thead>tr>th]:border-white/10 [&_.p-datatable-tbody>tr]:bg-transparent [&_.p-datatable-tbody>tr>td]:border-white/5 [&_.p-datatable-tbody>tr:hover]:bg-white/5 [&_.p-paginator]:bg-transparent [&_.p-paginator]:border-white/10 [&_.p-paginator_.p-paginator-pages_.p-paginator-page]:text-white/70 [&_.p-paginator_.p-paginator-pages_.p-paginator-page.p-highlight]:bg-primary [&_.p-paginator_.p-paginator-pages_.p-paginator-page.p-highlight]:text-white">
+          <div className={`
+            [&_.p-datatable]:bg-transparent 
+            [&_.p-datatable-header]:bg-transparent 
+            [&_.p-datatable-tbody>tr]:bg-transparent 
+            ${theme === 'dark' 
+              ? '[&_.p-datatable-thead>tr>th]:bg-surface-light/50 [&_.p-datatable-thead>tr>th]:text-white/70 [&_.p-datatable-thead>tr>th]:border-white/10 [&_.p-datatable-tbody>tr>td]:border-white/5 [&_.p-datatable-tbody>tr:hover]:bg-white/5 [&_.p-paginator]:bg-transparent [&_.p-paginator]:border-white/10 [&_.p-paginator_.p-paginator-pages_.p-paginator-page]:text-white/70' 
+              : '[&_.p-datatable-thead>tr>th]:bg-gray-100 [&_.p-datatable-thead>tr>th]:text-gray-700 [&_.p-datatable-thead>tr>th]:border-gray-200 [&_.p-datatable-tbody>tr>td]:border-gray-100 [&_.p-datatable-tbody>tr:hover]:bg-gray-50 [&_.p-paginator]:bg-transparent [&_.p-paginator]:border-gray-200 [&_.p-paginator_.p-paginator-pages_.p-paginator-page]:text-gray-700'
+            } 
+            [&_.p-paginator_.p-paginator-pages_.p-paginator-page.p-highlight]:bg-primary 
+            [&_.p-paginator_.p-paginator-pages_.p-paginator-page.p-highlight]:text-white
+          `}>
             <DataTable 
               value={birthdays} 
               paginator 

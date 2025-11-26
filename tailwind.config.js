@@ -19,6 +19,12 @@ module.exports = {
           light: '#252542',
         },
         background: '#0f0f1a',
+        // Light mode colors
+        'light-bg': '#f5f5f7',
+        'light-surface': '#ffffff',
+        'light-surface-secondary': '#f0f0f2',
+        'light-text': '#1a1a2e',
+        'light-text-secondary': '#6b7280',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
