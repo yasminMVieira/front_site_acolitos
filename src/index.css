@@ -9,18 +9,34 @@
     @apply scroll-smooth;
   }
   
+  /* Dark mode (padrão) */
   body {
-    @apply bg-background text-white font-sans antialiased;
+    @apply bg-background text-white font-sans antialiased transition-colors duration-300;
+  }
+  
+  /* Light mode */
+  html.light body {
+    @apply bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900;
   }
 }
 
 @layer components {
+  /* Glass effect - Dark mode */
   .glass {
-    @apply bg-surface/60 backdrop-blur-md border border-white/10 rounded-2xl;
+    @apply bg-surface/60 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300;
+  }
+  
+  /* Glass effect - Light mode */
+  html.light .glass {
+    @apply bg-white/80 border-gray-200/50 shadow-lg shadow-gray-200/50;
   }
   
   .glass-card {
     @apply glass p-6 shadow-lg shadow-primary/5;
+  }
+  
+  html.light .glass-card {
+    @apply shadow-gray-300/30;
   }
   
   .btn-gradient {
@@ -35,18 +51,48 @@
            focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20;
   }
   
+  /* Input - Light mode */
+  html.light .input-dark {
+    @apply bg-white border-gray-200 text-gray-900 placeholder-gray-400;
+  }
+  
   .nav-item {
     @apply flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-xl
            text-white/60 transition-all duration-300 hover:text-white hover:bg-white/5;
   }
   
+  html.light .nav-item {
+    @apply text-gray-500 hover:text-primary hover:bg-primary/5;
+  }
+  
   .nav-item-active {
     @apply text-primary bg-primary/10;
+  }
+  
+  /* Textos adaptativos */
+  .text-adaptive {
+    @apply text-white transition-colors duration-300;
+  }
+  
+  html.light .text-adaptive {
+    @apply text-gray-900;
+  }
+  
+  .text-adaptive-secondary {
+    @apply text-white/70 transition-colors duration-300;
+  }
+  
+  html.light .text-adaptive-secondary {
+    @apply text-gray-600;
   }
 }
 
 @layer utilities {
   .text-glow {
     text-shadow: 0 0 20px rgba(118, 75, 162, 0.5), 0 0 40px rgba(102, 126, 234, 0.3);
+  }
+  
+  html.light .text-glow {
+    text-shadow: none;
   }
 }
