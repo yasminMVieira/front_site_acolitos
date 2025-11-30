@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 const Welcome: React.FC = () => {
   const [text, setText] = useState('');
   const fullText = "Bem-vindo(a), Acólito(a)!";
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let index = 0;
@@ -22,17 +24,20 @@ const Welcome: React.FC = () => {
     {
       icon: 'pi pi-user-plus',
       title: 'Cadastro',
-      description: 'Registre-se como acólito'
+      description: 'Registre-se como acólito',
+      action: () => navigate('/register')
     },
     {
       icon: 'pi pi-gift',
       title: 'Aniversários',
-      description: 'Veja os aniversariantes'
+      description: 'Veja os aniversariantes',
+      action: () => navigate('/birthdays')
     },
     {
-      icon: 'pi pi-heart',
+      icon: 'pi pi-instagram',
       title: 'Comunidade',
-      description: 'Faça parte do grupo'
+      description: 'Siga-nos no Instagram',
+      action: () => window.open('https://www.instagram.com/acolitos.nsc/', '_blank')
     }
   ];
 
@@ -83,13 +88,14 @@ const Welcome: React.FC = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="glass-card text-center hover:scale-105 transition-transform duration-300 hover:shadow-xl hover:shadow-primary/20"
+              onClick={feature.action}
+              className="glass-card text-center hover:scale-105 transition-transform duration-300 hover:shadow-xl hover:shadow-primary/20 cursor-pointer"
             >
               <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center">
                 <i className={`${feature.icon} text-2xl md:text-3xl text-white`}></i>
               </div>
               <h3 className={`text-lg md:text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                {feature. title}
+                {feature.title}
               </h3>
               <p className={`text-sm md:text-base ${theme === 'dark' ? 'text-white/60' : 'text-gray-600'}`}>
                 {feature.description}
