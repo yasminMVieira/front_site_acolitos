@@ -30,7 +30,7 @@ const RegisterForm: React.FC = () => {
 
     setIsLoading(true);
     try {
-      await axios.post('https://back-site-acolitos.onrender.com/api/users', { name, birthdate, email });
+      await axios.post(`${process.env.REACT_APP_API_URL}/users`, { name, birthdate, email });
       alert('Usuário cadastrado com sucesso!');  
       setName('');
       setBirthdate(null);
