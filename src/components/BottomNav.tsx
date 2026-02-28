@@ -29,11 +29,11 @@ const BottomNav: React.FC = () => {
                 key={item.path}
                 to={item.path}
                 className={`nav-item ${
-                  location.pathname === item. path ? 'nav-item-active' : ''
+                  location.pathname === item.path ? 'nav-item-active' : ''
                 }`}
               >
                 <i className={`${item.icon} text-xl`}></i>
-                <span className="text-xs font-medium">{item. label}</span>
+                <span className="text-xs font-medium">{item.label}</span>
               </Link>
             ))}
             
@@ -72,7 +72,7 @@ const BottomNav: React.FC = () => {
                     to={item.path}
                     className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300
                       ${
-                        location.pathname === item. path
+                        location.pathname === item.path
                           ? 'bg-primary/20 text-primary-light'
                           : theme === 'dark'
                             ? 'text-white/70 hover:text-white hover:bg-white/5'
