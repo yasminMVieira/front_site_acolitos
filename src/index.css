@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   html {
@@ -85,6 +85,32 @@
   html.light .text-adaptive-secondary {
     @apply text-gray-600;
   }
+}
+
+/* Toast - Mobile */
+@media (max-width: 768px) {
+  .p-toast {
+    width: calc(100vw - 2rem) !important;
+  }
+}
+
+/* Toast - Light mode */
+html.light .p-toast .p-toast-message {
+  background: white !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light .p-toast .p-toast-message .p-toast-summary {
+  color: #1a1a2e !important;
+}
+
+html.light .p-toast .p-toast-message .p-toast-detail {
+  color: #4b5563 !important;
+}
+
+html.light .p-toast .p-toast-message .p-toast-icon-close {
+  color: #6b7280 !important;
 }
 
 @layer utilities {

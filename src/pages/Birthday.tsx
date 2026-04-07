@@ -3,7 +3,7 @@ import BirthdayList from '../components/BirthdayList';
 
 const Register: React.FC = () => {
   return (
-    <div>
+    <div className="flex-1 flex flex-col">
       <BirthdayList />
     </div>
   );

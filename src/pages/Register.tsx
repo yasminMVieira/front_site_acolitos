@@ -3,7 +3,7 @@ import RegisterForm from '../components/RegisterForm';
 
 const Register: React.FC = () => {
   return (
-    <div>
+    <div className="flex-1 flex flex-col">
       <RegisterForm />
     </div>
   );

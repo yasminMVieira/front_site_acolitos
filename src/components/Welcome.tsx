@@ -42,7 +42,7 @@ const Welcome: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-8">
+    <div className="relative flex-1 flex flex-col items-center justify-center overflow-hidden px-4 py-8">
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 rounded-full blur-3xl animate-float

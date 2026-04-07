@@ -15,13 +15,13 @@ const AppContent: React.FC = () => {
   
   return (
     <Router>
-      <div className={`min-h-screen pb-20 md:pb-0 md:pt-24 transition-colors duration-300
-        ${theme === 'dark' 
-          ? 'bg-background' 
+      <div className={`min-h-screen flex flex-col pb-20 md:pb-0 md:pt-24 transition-colors duration-300
+        ${theme === 'dark'
+          ? 'bg-background'
           : 'bg-gradient-to-br from-gray-50 to-gray-100'
         }`}>
         <BottomNav />
-        <main>
+        <main className="flex-1 flex flex-col">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />

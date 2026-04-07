@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
+import { Toast } from 'primereact/toast';
 
 const RegisterForm: React.FC = () => {
+  const toast = useRef<Toast>(null);
   const [name, setName] = useState('');
   const [birthdate, setBirthdate] = useState<Date | null>(null);
   const [email, setEmail] = useState('');
@@ -24,27 +26,28 @@ const RegisterForm: React.FC = () => {
     event.preventDefault();
 
     if (!validateForm()) {
-      alert('Todos os campos são obrigatórios!');
+      toast.current?.show({ severity: 'warn', summary: 'Atenção', detail: 'Todos os campos são obrigatórios!', life: 3000 });
       return;
     }
 
     setIsLoading(true);
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/users`, { name, birthdate, email });
-      alert('Usuário cadastrado com sucesso!');  
+      toast.current?.show({ severity: 'success', summary: 'Sucesso', detail: 'Usuário cadastrado com sucesso!', life: 3000 });
       setName('');
       setBirthdate(null);
       setEmail('');
       setErrors({});
     } catch (error) {
-      alert('Erro ao cadastrar usuário');
+      toast.current?.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao cadastrar usuário', life: 3000 });
     } finally {
       setIsLoading(false);
     }
   }
   
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 pt-20 md:pt-24">
+    <div className="flex-1 flex items-center justify-center px-4 py-8">
+      <Toast ref={toast} position="top-center" />
       <div className="glass-card w-full max-w-md">
         {/* Logo */}
         <div className="flex justify-center mb-6">

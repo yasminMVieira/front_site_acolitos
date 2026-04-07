@@ -13,6 +13,7 @@ interface User {
 const BirthdayList: React.FC = () => {
   const [birthdays, setBirthdays] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const { theme } = useTheme();
   
   useEffect(() => {
@@ -22,6 +23,7 @@ const BirthdayList: React.FC = () => {
         setBirthdays(response.data);
       } catch (error) {
         console.error('Error fetching birthdays:', error);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -57,7 +59,7 @@ const BirthdayList: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 pt-20 md:pt-24">
+    <div className="flex-1 flex items-center justify-center px-4 py-8">
       <div className="glass-card w-full max-w-2xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -77,8 +79,20 @@ const BirthdayList: React.FC = () => {
           </div>
         </div>
 
-        {/* Loading State */}
-        {loading ? (
+        {/* Error State */}
+        {error ? (
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-red-500/10">
+              <i className="pi pi-exclamation-triangle text-4xl text-red-400"></i>
+            </div>
+            <h3 className={`text-lg font-semibold mb-2 ${theme === 'dark' ? 'text-white/80' : 'text-gray-900'}`}>
+              Erro ao carregar
+            </h3>
+            <p className={theme === 'dark' ? 'text-white/50 text-center' : 'text-gray-600 text-center'}>
+              Não foi possível buscar os aniversariantes. Tente novamente mais tarde.
+            </p>
+          </div>
+        ) : loading ? (
           <div className="flex flex-col items-center justify-center py-12">
             <i className="pi pi-spin pi-spinner text-4xl text-primary-light mb-4"></i>
             <p className={theme === 'dark' ? 'text-white/60' : 'text-gray-600'}>Carregando aniversariantes...</p>
