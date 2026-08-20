@@ -14,6 +14,7 @@ import Admin from './pages/Admin';
 import Account from './pages/Account';
 import Biblioteca from './pages/Biblioteca';
 import DocumentoPage from './pages/DocumentoPage';
+import PublicarDocumento from './pages/PublicarDocumento';
 import 'primereact/resources/themes/lara-dark-purple/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -44,6 +45,22 @@ const AppContent: React.FC = () => {
               element={
                 <RequireAuth>
                   <Biblioteca />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/biblioteca/novo"
+              element={
+                <RequireAuth adminOnly>
+                  <PublicarDocumento />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/biblioteca/:slug/editar"
+              element={
+                <RequireAuth adminOnly>
+                  <PublicarDocumento />
                 </RequireAuth>
               }
             />

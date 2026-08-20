@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Toast } from 'primereact/toast';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -16,6 +16,8 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
+  // Guardado fora do toast porque some rápido demais para quem precisa agir.
+  const [semCadastro, setSemCadastro] = useState(false);
 
   const enviarCodigo = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -25,21 +27,31 @@ const Login: React.FC = () => {
     }
 
     setLoading(true);
+    setSemCadastro(false);
     try {
       await requestCode(email);
       setStep('codigo');
       toast.current?.show({
         severity: 'success',
         summary: 'Código enviado',
-        detail: 'Se esse e-mail estiver cadastrado, o código chega em instantes.',
+        detail: `Confira a caixa de entrada de ${email.trim()}.`,
         life: 5000,
       });
     } catch (err) {
+      const status = (err as any)?.response?.status;
+
+      // 404 é o e-mail que não está no cadastro. Em vez de um toast que some,
+      // a tela mostra o caminho para se cadastrar.
+      if (status === 404) {
+        setSemCadastro(true);
+        return;
+      }
+
       toast.current?.show({
-        severity: 'error',
-        summary: 'Erro',
+        severity: status === 403 ? 'warn' : 'error',
+        summary: status === 403 ? 'Cadastro inativo' : 'Erro',
         detail: errorMessage(err, 'Não foi possível enviar o código agora.'),
-        life: 4000,
+        life: 6000,
       });
     } finally {
       setLoading(false);
@@ -104,9 +116,32 @@ const Login: React.FC = () => {
                 className="input-dark"
                 placeholder="seunome@exemplo.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (semCadastro) setSemCadastro(false);
+                }}
               />
             </div>
+
+            {semCadastro && (
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+                <p className="mb-1 flex items-center gap-2 font-medium text-amber-500">
+                  <i className="pi pi-info-circle text-sm"></i>
+                  E-mail não encontrado
+                </p>
+                <p className={`text-sm ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
+                  Não achamos esse endereço no cadastro dos acólitos. Confira se digitou certo, ou
+                  se você usou outro e-mail quando se inscreveu.
+                </p>
+                <Link
+                  to="/register"
+                  className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary-light hover:text-accent"
+                >
+                  Fazer meu cadastro
+                  <i className="pi pi-arrow-right text-xs"></i>
+                </Link>
+              </div>
+            )}
             <button type="submit" disabled={loading} className="btn-gradient w-full disabled:opacity-60">
               {loading ? 'Enviando...' : 'Receber código'}
             </button>

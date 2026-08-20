@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import api from '../services/api';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import MarkdownView from '../components/MarkdownView';
 
 interface DocumentoCompleto {
@@ -17,6 +18,7 @@ interface DocumentoCompleto {
 const DocumentoPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { theme } = useTheme();
+  const { isAdmin } = useAuth();
   const isDark = theme === 'dark';
 
   const [documento, setDocumento] = useState<DocumentoCompleto | null>(null);
@@ -56,15 +58,26 @@ const DocumentoPage: React.FC = () => {
   return (
     <div className="flex-1 px-4 py-8">
       <div className="mx-auto w-full max-w-3xl">
-        <Link
-          to="/biblioteca"
-          className={`mb-4 inline-flex items-center gap-2 text-sm transition-colors ${
-            isDark ? 'text-white/60 hover:text-white' : 'text-gray-600 hover:text-primary'
-          }`}
-        >
-          <i className="pi pi-arrow-left text-xs"></i>
-          Voltar para a biblioteca
-        </Link>
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <Link
+            to="/biblioteca"
+            className={`inline-flex items-center gap-2 text-sm transition-colors ${
+              isDark ? 'text-white/60 hover:text-white' : 'text-gray-600 hover:text-primary'
+            }`}
+          >
+            <i className="pi pi-arrow-left text-xs"></i>
+            Voltar para a biblioteca
+          </Link>
+          {isAdmin && documento && (
+            <Link
+              to={`/biblioteca/${documento.slug}/editar`}
+              className="inline-flex items-center gap-2 text-sm font-medium text-primary-light transition-colors hover:text-accent"
+            >
+              <i className="pi pi-pencil text-xs"></i>
+              Editar
+            </Link>
+          )}
+        </div>
 
         <div className="glass-card">
           {loading ? (

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 export interface DocumentoResumo {
   _id: string;
@@ -27,6 +28,7 @@ const ICONES: Record<string, string> = {
 
 const Biblioteca: React.FC = () => {
   const { theme } = useTheme();
+  const { isAdmin } = useAuth();
   const isDark = theme === 'dark';
 
   const [documentos, setDocumentos] = useState<DocumentoResumo[]>([]);
@@ -87,6 +89,16 @@ const Biblioteca: React.FC = () => {
             <i className="pi pi-book text-2xl text-white"></i>
           </div>
         </div>
+
+        {isAdmin && (
+          <Link
+            to="/biblioteca/novo"
+            className="btn-gradient mb-5 flex items-center justify-center gap-2"
+          >
+            <i className="pi pi-plus text-sm"></i>
+            Publicar documento
+          </Link>
+        )}
 
         <div className="relative mb-4">
           <i className={`pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-sm ${isDark ? 'text-white/40' : 'text-gray-400'}`}></i>
