@@ -7,6 +7,7 @@ const ROTULOS: Record<UserStatus, string> = {
   pendente: 'Aguardando aprovação',
   aprovado: 'Acólito aprovado',
   admin: 'Coordenação',
+  inativo: 'Acesso desativado',
   recusado: 'Acesso recusado',
 };
 
@@ -14,6 +15,7 @@ const CORES: Record<UserStatus, string> = {
   pendente: 'bg-amber-500/15 text-amber-500',
   aprovado: 'bg-emerald-500/15 text-emerald-500',
   admin: 'bg-primary/20 text-primary-light',
+  inativo: 'bg-gray-500/20 text-gray-400',
   recusado: 'bg-red-500/15 text-red-400',
 };
 

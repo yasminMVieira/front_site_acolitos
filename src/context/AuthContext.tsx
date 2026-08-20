@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import api, { clearToken, getToken, setToken } from '../services/api';
 
-export type UserStatus = 'pendente' | 'aprovado' | 'admin' | 'recusado';
+export type UserStatus = 'pendente' | 'aprovado' | 'admin' | 'inativo' | 'recusado';
 
 export interface AuthUser {
   id: string;
