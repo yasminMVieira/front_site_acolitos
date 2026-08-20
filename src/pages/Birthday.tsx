@@ -1,7 +1,7 @@
 import React from 'react';
 import BirthdayList from '../components/BirthdayList';
 
-const Register: React.FC = () => {
+const Birthday: React.FC = () => {
   return (
     <div className="flex-1 flex flex-col">
       <BirthdayList />
@@ -9,4 +9,4 @@ const Register: React.FC = () => {
   );
 }
 
-export default Register;
+export default Birthday;

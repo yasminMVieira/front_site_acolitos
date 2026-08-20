@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { featuredLinks } from '../config/links';
+import ExternalLinkCard from './ExternalLinkCard';
+
+interface Shortcut {
+  icon: string;
+  title: string;
+  description: string;
+  path: string;
+}
+
+const shortcuts: Shortcut[] = [
+  {
+    icon: 'pi pi-gift',
+    title: 'Aniversários',
+    description: 'Quem faz aniversário hoje, no mês e no ano todo',
+    path: '/birthdays',
+  },
+  {
+    icon: 'pi pi-user-plus',
+    title: 'Cadastro',
+    description: 'Registre-se como acólito do grupo',
+    path: '/register',
+  },
+];
 
 const Welcome: React.FC = () => {
   const [text, setText] = useState('');
-  const fullText = "Bem-vindo(a), Acólito(a)!";
+  const fullText = 'Bem-vindo(a), Acólito(a)!';
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     let index = 0;
@@ -20,98 +45,88 @@ const Welcome: React.FC = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const features = [
-    {
-      icon: 'pi pi-user-plus',
-      title: 'Cadastro',
-      description: 'Registre-se como acólito',
-      action: () => navigate('/register')
-    },
-    {
-      icon: 'pi pi-gift',
-      title: 'Aniversários',
-      description: 'Veja os aniversariantes',
-      action: () => navigate('/birthdays')
-    },
-    {
-      icon: 'pi pi-calendar',
-      title: 'Calendário',
-      description: 'Acompanhe o calendário litúrgico',
-      action: () => window.open('https://acolyte.guilhermerodovalho.com', '_blank')
-    },
-    {
-      icon: 'pi pi-instagram',
-      title: 'Comunidade',
-      description: 'Siga-nos no Instagram',
-      action: () => window.open('https://www.instagram.com/acolitos.nsc/', '_blank')
-    }
-  ];
-
   return (
-    <div className="relative flex-1 flex flex-col items-center justify-center overflow-hidden px-4 py-8">
-      {/* Animated Background Orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 rounded-full blur-3xl animate-float
-          ${theme === 'dark' 
-            ? 'bg-gradient-to-r from-primary/30 to-accent/30' 
-            : 'bg-gradient-to-r from-primary/20 to-accent/20'
-          }`}></div>
-        <div className={`absolute bottom-1/4 right-1/4 w-48 h-48 md:w-72 md:h-72 rounded-full blur-3xl animate-float-delayed
-          ${theme === 'dark' 
-            ? 'bg-gradient-to-r from-accent/30 to-primary/30' 
-            : 'bg-gradient-to-r from-accent/20 to-primary/20'
-          }`}></div>
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-48 md:h-48 rounded-full blur-2xl
-          ${theme === 'dark' 
-            ? 'bg-gradient-radial from-primary/20 to-transparent' 
-            : 'bg-gradient-radial from-primary/10 to-transparent'
-          }`}></div>
+    <div className="relative flex-1 overflow-hidden px-4 py-8">
+      {/* Orbes animados de fundo */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className={`animate-float absolute left-1/4 top-1/4 h-64 w-64 rounded-full blur-3xl md:h-96 md:w-96
+          ${isDark ? 'bg-gradient-to-r from-primary/30 to-accent/30' : 'bg-gradient-to-r from-primary/20 to-accent/20'}`}
+        ></div>
+        <div
+          className={`animate-float-delayed absolute bottom-1/4 right-1/4 h-48 w-48 rounded-full blur-3xl md:h-72 md:w-72
+          ${isDark ? 'bg-gradient-to-r from-accent/30 to-primary/30' : 'bg-gradient-to-r from-accent/20 to-primary/20'}`}
+        ></div>
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center max-w-4xl mx-auto">
-        {/* Logo with Glow Effect */}
-        <div className="mb-6 animate-pulse-glow rounded-full p-2">
+      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center">
+        {/* Logo */}
+        <div className="animate-pulse-glow mb-6 rounded-full p-2">
           <img
             src={`${process.env.PUBLIC_URL}/logo_acolito.png`}
             alt="Logo Acólitos"
-            className="w-24 h-24 md:w-32 md:h-32 object-contain"
+            className="h-24 w-24 object-contain md:h-32 md:w-32"
           />
         </div>
 
-        {/* Typing Effect Title */}
-        <div className="glass-card mb-8 text-center">
-          <h1 className={`text-2xl md:text-4xl font-bold ${theme === 'dark' ? 'text-glow' : ''}`}>
-            <span className="bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent">
-              {text}
-            </span>
-            <span className={`animate-pulse ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>|</span>
+        {/* Título com efeito de digitação */}
+        <div className="glass-card mb-10 text-center">
+          <h1 className={`text-2xl font-bold md:text-4xl ${isDark ? 'text-glow' : ''}`}>
+            <span className="bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent">{text}</span>
+            <span className={`animate-pulse ${isDark ? 'text-white' : 'text-primary'}`}>|</span>
           </h1>
+          <p className={`mt-3 text-sm md:text-base ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
+            O portal do grupo de acólitos da Paróquia Nossa Senhora do Caminho.
+          </p>
         </div>
 
-        {/* Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              onClick={feature.action}
-              className="glass-card text-center hover:scale-105 transition-transform duration-300 hover:shadow-xl hover:shadow-primary/20 cursor-pointer"
+        {/* Atalhos internos */}
+        <section className="mb-10 w-full">
+          <h2 className={`mb-4 text-sm font-semibold uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+            Atalhos
+          </h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {shortcuts.map((shortcut) => (
+              <button
+                key={shortcut.path}
+                onClick={() => navigate(shortcut.path)}
+                className="glass-card cursor-pointer text-left transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20"
+              >
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-r from-primary to-accent">
+                  <i className={`${shortcut.icon} text-2xl text-white`}></i>
+                </div>
+                <h3 className={`mb-1 text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  {shortcut.title}
+                </h3>
+                <p className={`text-sm ${isDark ? 'text-white/60' : 'text-gray-600'}`}>{shortcut.description}</p>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* Links em destaque */}
+        <section className="w-full">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className={`text-sm font-semibold uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+              Em destaque
+            </h2>
+            <Link
+              to="/links"
+              className="flex items-center gap-1 text-sm font-medium text-primary-light transition-colors hover:text-accent"
             >
-              <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-                <i className={`${feature.icon} text-2xl md:text-3xl text-white`}></i>
-              </div>
-              <h3 className={`text-lg md:text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                {feature.title}
-              </h3>
-              <p className={`text-sm md:text-base ${theme === 'dark' ? 'text-white/60' : 'text-gray-600'}`}>
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
+              Ver todos
+              <i className="pi pi-arrow-right text-xs"></i>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {featuredLinks.map((link) => (
+              <ExternalLinkCard key={link.id} link={link} prominent />
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
-}
+};
 
 export default Welcome;

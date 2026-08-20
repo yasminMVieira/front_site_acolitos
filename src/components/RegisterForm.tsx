@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
@@ -32,7 +32,7 @@ const RegisterForm: React.FC = () => {
 
     setIsLoading(true);
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/users`, { name, birthdate, email });
+      await api.post('/users', { name, birthdate, email });
       toast.current?.show({ severity: 'success', summary: 'Sucesso', detail: 'Usuário cadastrado com sucesso!', life: 3000 });
       setName('');
       setBirthdate(null);
@@ -65,7 +65,7 @@ const RegisterForm: React.FC = () => {
         <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Name Field */}
           <div>
-            <label htmlFor="name" className="flex items-center gap-2 text-white/80 font-medium mb-2">
+            <label htmlFor="name" className="flex items-center gap-2 text-adaptive-secondary font-medium mb-2">
               <i className="pi pi-user text-primary-light"></i>
               Nome
             </label>
@@ -84,7 +84,7 @@ const RegisterForm: React.FC = () => {
           
           {/* Birthdate Field */}
           <div>
-            <label htmlFor="birthdate" className="flex items-center gap-2 text-white/80 font-medium mb-2">
+            <label htmlFor="birthdate" className="flex items-center gap-2 text-adaptive-secondary font-medium mb-2">
               <i className="pi pi-calendar text-primary-light"></i>
               Data de Nascimento
             </label>
@@ -106,7 +106,7 @@ const RegisterForm: React.FC = () => {
 
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="flex items-center gap-2 text-white/80 font-medium mb-2">
+            <label htmlFor="email" className="flex items-center gap-2 text-adaptive-secondary font-medium mb-2">
               <i className="pi pi-envelope text-primary-light"></i>
               E-mail
             </label>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 interface NavItem {
   path: string;
@@ -8,43 +9,45 @@ interface NavItem {
   icon: string;
 }
 
-const navItems: NavItem[] = [
-  { path: '/', label: 'Home', icon: 'pi pi-home' },
-  { path: '/register', label: 'Cadastro', icon: 'pi pi-user-plus' },
-  { path: '/birthdays', label: 'Aniversários', icon: 'pi pi-gift' },
-];
-
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
+
+  // O último item muda conforme a pessoa está logada ou não, para o menu
+  // caber no celular sem virar uma fileira de ícones espremidos.
+  const navItems: NavItem[] = [
+    { path: '/', label: 'Início', icon: 'pi pi-home' },
+    { path: '/biblioteca', label: 'Biblioteca', icon: 'pi pi-book' },
+    { path: '/birthdays', label: 'Aniversários', icon: 'pi pi-gift' },
+    user
+      ? { path: '/conta', label: 'Conta', icon: 'pi pi-user' }
+      : { path: '/entrar', label: 'Entrar', icon: 'pi pi-sign-in' },
+  ];
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <>
       {/* Bottom Navigation for Mobile */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
         <div className={`glass border-t rounded-t-2xl ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
-          <div className="flex justify-around items-center h-16 px-2">
+          <div className="flex justify-around items-center h-16 px-1">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`nav-item ${
-                  location.pathname === item.path ? 'nav-item-active' : ''
-                }`}
+                className={`nav-item ${isActive(item.path) ? 'nav-item-active' : ''}`}
               >
-                <i className={`${item.icon} text-xl`}></i>
-                <span className="text-xs font-medium">{item.label}</span>
+                <i className={`${item.icon} text-lg`}></i>
+                <span className="text-[10px] font-medium leading-none">{item.label}</span>
               </Link>
             ))}
-            
+
             {/* Toggle de Tema - Mobile */}
-            <button
-              onClick={toggleTheme}
-              className={`nav-item`}
-              aria-label="Alternar tema"
-            >
-              <i className={`${theme === 'dark' ? 'pi pi-sun text-yellow-400' : 'pi pi-moon text-primary'} text-xl`}></i>
-              <span className="text-xs font-medium">Tema</span>
+            <button onClick={toggleTheme} className="nav-item" aria-label="Alternar tema">
+              <i className={`${theme === 'dark' ? 'pi pi-sun text-yellow-400' : 'pi pi-moon text-primary'} text-lg`}></i>
+              <span className="text-[10px] font-medium leading-none">Tema</span>
             </button>
           </div>
         </div>
@@ -72,7 +75,7 @@ const BottomNav: React.FC = () => {
                     to={item.path}
                     className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300
                       ${
-                        location.pathname === item.path
+                        isActive(item.path)
                           ? 'bg-primary/20 text-primary-light'
                           : theme === 'dark'
                             ? 'text-white/70 hover:text-white hover:bg-white/5'
@@ -83,7 +86,7 @@ const BottomNav: React.FC = () => {
                     <span className="font-medium">{item.label}</span>
                   </Link>
                 ))}
-                
+
                 {/* Toggle de Tema - Desktop */}
                 <button
                   onClick={toggleTheme}
