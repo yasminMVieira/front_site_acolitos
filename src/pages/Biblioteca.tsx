@@ -82,7 +82,7 @@ const Biblioteca: React.FC = () => {
             <p className={`mt-1 text-sm ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
               {loading
                 ? 'Carregando...'
-                : `${visiveis.length} documento${visiveis.length !== 1 ? 's' : ''} disponível${visiveis.length !== 1 ? 'eis' : ''}`}
+                : `${visiveis.length} documento${visiveis.length !== 1 ? 's' : ''} disponíve${visiveis.length !== 1 ? 'is' : 'l'}`}
             </p>
           </div>
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-primary to-accent">
